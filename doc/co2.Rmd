@@ -1,0 +1,678 @@
+---
+output: 
+  pdf_document:
+    fig_caption: true
+#    toc: true
+#    toc_depth: 2
+    latex_engine: pdflatex
+    keep_tex: true
+    template: C:/Users/crist/Documents/DOC OLD/svm-r-markdown-templates-master/svm-latex-ms.tex
+title: "La relación a largo plazo y la causalidad entre las exportacioens mineras, la producción industrial y el crecimiento económico en Perú"
+subtitle: "Un estudio de caso utilizando un modelo VEC"
+author:
+- name: Cristian Carrión
+  affiliation: Escuela Politécnica Nacional
+  email: wwwcristiancarrion@gmail.com
+- name: Christian Socasi
+  affiliation: Escuela Politécnica Nacional
+  email: dssffssdffsd@gmail.com
+fontfamily: mathpazo
+#fontfamilyoptions: sc, osf
+fontsize: 11pt
+geometry: margin=1in
+#csl: C:/Users/Usuario/Documents/Doc_espan/Marihuana_law/american-journal-of-political-science.csl
+#tables: yes
+appendix: yes
+appendixletter: A
+#indent: yes
+#spacing: double            #margen doble
+bibliography: C:/Users/crist/Documents/eco2/trabajo_eco2/doc/vecbib.bib  #no va a dectecta por la carpeta que tiene "ñ" y posible el "espacio"
+biblio-style: apsr
+abstract: El medio ambiente se convirtió en una cuestión de importancia internacional en 1972, cuando se celebró en Estocolmo la Conferencia de las Naciones Unidas sobre el Medio Ambiental. La relación entre crecimiento económico y medio ambiente ha sido polémica durante mucho tiempo, por los 
+#endnote: no
+thanks: "La replicacion de los archivos están disponibles en la página Github del autor ([github.com/cristian1512](https://github.com/cristian1512))"
+header-includes:
+  -  \usepackage{hyperref}
+  - \usepackage[spanish]{babel}
+  - \usepackage{caption}
+  - \usepackage{multirow}
+#  - \linespread{1.05}             margen?
+---
+
+```{r setup, include=FALSE, cache=FALSE, eval=TRUE}
+ knitr::opts_chunk$set(cache=TRUE,
+                      message=FALSE, warning=FALSE,
+                      fig.path='figs/',
+                      cache.path = '_cache/',
+                      fig.process = function(x) {
+                      x2 = sub('-\\d+([.][a-z]+)$', '\\1', x)
+                      if (file.rename(x, x2)) x2 else x
+                      }) 
+
+library(sqldf)
+library(knitr) 
+library(kfigr)
+library(pander)
+library(stargazer)
+library(xtable)
+library(plyr)
+# library(knitr)
+library(corrplot)
+library(readxl)
+#library(WDI)
+#library(wbstats)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tsDyn)
+library(urca)
+library(ggsci)
+library(gganimate)
+library(texreg)
+library(kableExtra)
+library(extrafont)
+library(forecast) 
+library(tseries)
+library(broom)
+library(purrr)
+library(stargazer)
+library(vars)
+library(WDI)
+library(MVN)
+library(egcm)
+
+dbperu = read_xlsx("C:/Users/crist/Documents/eco2/trabajo_eco2/peru.xlsx")
+
+dpbi = diff(dbperu$pbi)
+dpbiman = diff(dbperu$pbiman)
+dxmin = diff(dbperu$xmin)
+dperu = data.frame(dpbi ,
+                      dpbiman,
+                      dxmin)
+
+level.peru = dbperu[2:4]
+
+df1 <- dbperu %>%
+  dplyr::select(year, 
+         pbi,
+         pbiman,
+         xmin) %>%
+  gather(key = "variable", 
+         value = "value", 
+         -year)
+```
+
+
+# Introducción
+
+ Durante las últimas décadas, el debate de la relación entre crecimiento económico y el medio ambiente se ha intensificado a nivel teórico y mediante aplicaciones empíricas en diversas partes del mundo. La actividad productiva, extractiva y consumista de la sociedad durante siglos dejó de considerar que vivir en un ambiente sano es una necesidad indispensable para los individuos. Desde 1990, el vínculo entre las emisiones de CO 2 y El crecimiento económico ha sido ampliamente estudiado. Prueba de ello es la cuantiosa proliferación de informes ambientales y ecológicos, cumbres del planeta, o posiciones ideológicas adoptadas.
+
+
+# Revisión de la literatura 
+
+En la literatura, existen tres categorías de estudio sobre la relación entre emisiones de CO2 y crecimiento económico: La primera categoría se centra en la relación. entre contaminantes ambientales y crecimiento económico e investiga la validez de los Kuznets ambientales (1955) curva. La segunda categoría investiga el relación entre crecimiento económico y consumo de energía, y finalmente la tercera categoría examina la relación dinámica entre crecimiento económico, energía consumo y contaminantes ambientales(Vásquez Sánchez & García Rendón, 2003).
+
+# Datos y Metodología
+
+## Datos
+
+En este estudio utilizamos datos anuales del  Exportaciones Mineras Metálicas *(XMIN)*, Producto Interno Bruto Manufacturero *(PBIMAN)* y el Producto Interno Bruto *(PBI)* de Italia durante el periodo de 1994-2016. Todos los datos recopilados del Banco Central de Perú.
+
+## Metodología
+
+La relación entre Exportaciones Mineras Metálicas, Producto Interno Bruto Manufacturero y el Producto Interno Bruto se puede expresar de la siguiente manera:
+
+\begin{eqnarray}\label{eq1}
+PBI_t=\propto_0+\alpha_1PBIMAN_t+\alpha_2XMIN_t+\varepsilon_T     
+\end{eqnarray}
+
+Donde:
+
++ ${PBI}_t =$ Producto Interno Bruto
++ ${PBIMAN}_t =$ Producto Interno Bruto Manufacturero
++ ${XMIN}_t =$ 	Exportaciones Mineras Metálicas
++ $\varepsilon_t =$ Ruido Blanco 
+
+Donde
+
++ $t$: 	 es la variable de tendencia.
+
+Entonces, comenzamos el proceso de estimación a partir del modelo \ref{eq1}. El propósito de este trabajo es examinar la relación a largo plazo entre Exportaciones Mineras Metálicas, Producto Interno Bruto Manufacturero y el Producto Interno Bruto en Perú. El enfoque metodológico del estudio incluye los siguientes pasos:
+
++ Comprobamos las propiedades de estacionariedad de la serie aplicando la prueba de Dickey-Fuller (ADF) aumentada [@Dickey1981] así como la prueba de Phillips-Perron (PP)[@Phillips1988].
++ Si todas las variables están integradas de orden uno, entonces la prueba de cointegración de Johansen (1995) es la más apropiada para ser usada. 
++ El tercer paso consiste en comprobar la relación causal entre las variables utilizando las pruebas apropiadas.
+
+En la Figura \ref{fig:plot1} se presenta la evolución de las tres variables, Exportaciones Mineras Metálicas, Producto Interno Bruto Manufacturero y el Producto Interno Bruto de Perú durante los años 1994-2016. Las estadísticas descriptivas de las variables se muestran en la Cuadro \ref{tab:descript}.
+
+
+```{r graph1, eval=T, echo=FALSE, fig.width=5, fig.height=3, fig.cap="\\label{fig:plot1} Representación gráfica de los datos de Perú (Niveles)", cache=TRUE}
+
+ggplot(df1, aes(x = year, 
+                y = value)) + 
+  geom_line(aes(color = variable), 
+            size = 1) +
+  theme_bw() +
+  xlab("Año") + 
+  ylab("") +
+  scale_color_uchicago(name="Variables",
+                     labels=c("PBI","PBIMAN","XMIN")) +
+  labs(caption = "Fuente: Banco Mundial
+                  Elaboración: Los autores")
+```
+
+```{r descriptive, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+#results="hide"   para oculatar los resultados (tabla)
+
+hline <- "\\hline"
+newline <- "\\\\"
+
+descriptive <- with(dperu, data.frame(dperu))
+table1 <- stargazer(descriptive, title="Estadística Descriptiva para las Variables Usadas en el Análisis", 
+                    header=FALSE, 
+                    label="tab:descript",   ### para usar referencias el tab del label tiene que ser diferente del chunk
+          covariate.labels=c("PBI",
+                             "PBIMAN",
+                             "XMIN"), 
+          omit.summary.stat = c("p25", "p75"),
+          digits = 2,
+          style = "qje",
+          star.cutoffs = c(.1, .1, .1), 
+          #star.char = c("\\dagger", "\\dagger", "\\dagger"),
+          font.size="small",
+          notes.append = FALSE, 
+          notes.align = "l",
+     #     notes = "\\parbox[t]{\\textwidth}{\\textit{Nota:} Logistic  comment.}")
+          notes = c("\\footnotesize{\\textit{Nota:} Las estadísticas descriptivas corresponden}" ,
+                    "\\footnotesize{~~~~~~~~~~ al periodo 1990-2014}",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+```
+
+
+```{r displaydescrip, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+#results="asis"   para mostrar los resultados
+
+cat(table1, sep='\n')
+```
+
+# La relación causal entre el PIB, Exportaciones Mineras Metálicas y el Producto Interno Bruto Manufacturero: Resultados Empíricos
+
+## Pruebas de Raíces Unitarias
+
+Aplicando las pruebas de raíz unitaria del ADF, de Dickey y Fuller [@Dickey1981], y del PP, de Phillips y Perron [@Phillips1988], presentamos los resultados en el Cuadro \ref{tab:tb2}. Los resultados del Cuadro \ref{tab:tb2} mostraron que todas las variables son estacionarias en su primera diferencias (para la prueba de ADF), es decir, están integradas de orden uno (es decir, *I (\ref{eq1})*). Por lo tanto, se continua aplicando el enfoque de cointegración de Johansen para examinar la relación a largo plazo entre las variables.
+
+```{r adfpp, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+#results="hide"   para oculatar los resultados (tabla)
+t1 = adf.test(dbperu$pbi    , k=0)
+t2 = adf.test(dbperu$pbiman , k=0)
+t3 = adf.test(dbperu$xmin    , k=0)
+t4 = adf.test(dpbi, k=0)
+t5 = adf.test(dpbiman, k=0)
+t6 = adf.test(dxmin, k=1)
+
+t7 = pp.test(dbperu$pbi)
+t8 = pp.test(dbperu$pbiman)
+t9 = pp.test(dbperu$xmin)
+t10 = pp.test(dpbi)
+t11 = pp.test(dpbiman)
+t12 = pp.test(dxmin)
+
+espacio = ""
+tab1 <- map_df(list(t1, t2, t3, t4, t5, t6), tidy)
+tab.out2 = round(tab1[1:2], 3)
+######
+niv.log = c("", "Nivel", "",
+            "", "Primera Diferencia", "")
+tab1.ts <- map_df(list(t1, t2, t3, t4, t5, t6), tidy)
+tab.out2.ts = round(tab1.ts[1:2], 3)
+tab2.ts <- map_df(list(t7, t8, t9, t10, t11, t12), tidy)
+tab.out3.ts = round(tab2.ts[1:2], 3)
+tab.tst = cbind(tab.out2.ts, tab.out3.ts)
+#tab.tst$"" = niv.log
+#tab.tst$"" = ""
+var.nam = c("PBI", "PBIMAN", "XMIN",
+            "DPBI", "DPBIMAN", "DXMIN")
+tab.tst$var = var.nam
+tab.tst$adf = with(tab.tst, ifelse(tab.tst[2] < 0.05, "Estacionario", "No Estacionario"))
+tab.tst$pp = with(tab.tst, ifelse(tab.tst[4] < 0.05, "Estacionario", "No Estacionario"))
+name.tst = c("t valor", "p", "t valor", "p", "Variables", "Estabilidad", "Estabilidad")
+tab.tst = setNames(tab.tst, name.tst)
+tab.tst = tab.tst[,c(5,1,2,6,3,4,7)]
+tab.tst = rbind(tab.tst[1:3,], 
+                 espacio,
+                 tab.tst[4:6,])
+
+########
+#niv.log = c("", "Nivel", "",
+#            "", "Primera Diferencia", "")
+
+#tab.out2$"" = niv.log
+#tab.out2$"" = ""
+#tab.out2$var = var.nam
+#tab.out2$tt = with(tab.out2, ifelse(p.value < 0.05, "Estacionario", "No #Estacionario"))
+col.name2 = c("t valor", "p", "", "", "Variables", "Estabilidad")
+#tab.out2 = setNames(tab.out2, col.name2)
+#tab.out2 = tab.out2[,c(3,4,5,1,2,6)]
+#tab.out2 = rbind(tab.out2[1:3,], 
+#                 espacio,
+#                 tab.out2[4:6,])
+
+
+table2 = stargazer(tab.tst, 
+                   label="tab:tb2",
+                   type = "latex",
+                   summary = FALSE, 
+                   rownames = FALSE, 
+                   header=FALSE,
+                   single.row=TRUE,
+                   digits = 2,
+           title="Los resultados de la prueba de raíz de la unidad ADF sobre el crecimiento económico y el CO2 durante 1990-2014",
+          notes = c("\\footnotesize{D: Primeraa Diferencia}",
+            "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+
+modelnames <- c("\\\\[-1.8ex] &  \\multicolumn{3}{c}{\\textit{Dickey–Fuller}} &  \\multicolumn{3}{c}{\\textit{Phillips–Perron}}\\\\", 
+                "\\\\[-1.8ex] Variables & t Valor & p & Estabilidad & t Valor & p & Estabilidad\\\\")
+table2 <- table2[c(-8)]
+
+table2 <- c(table2[a <- 1:7], modelnames, table2[-a])
+cccadfpp = "\\begin{tabular}{@{\\extracolsep{5pt}} lcclccl} "
+table2 <- table2[c(-5)]
+table2 <- c(table2[a <- 1:4], cccadfpp, table2[-a])
+
+###########
+#tab2 <- map_df(list(t7, t8, t9, t10, t11, t12), tidy)
+#tab.out3 = round(tab2[1:2], 3)
+#tab.out3$"" = niv.log
+#tab.out3$"" = ""
+#tab.out3$var = var.nam
+#tab.out3$tt = with(tab.out3, ifelse(p.value < 0.05, "Estacionario", "No #Estacionario"))
+#tab.out3 = setNames(tab.out3, col.name2)
+#tab.out3 = tab.out3[,c(3,4,5,1,2,6)]
+#tab.out3 = rbind(tab.out3[1:3,], 
+#                 espacio,
+#                 tab.out3[4:6,])
+#table3 = stargazer(tab.out3, 
+#                   type = "latex",
+#                   label="tab:tb3",
+#                   summary = FALSE, 
+#                   #rownames = FALSE, 
+#                   header=FALSE,
+#                   font.size="small",
+#           title="Los resultados de la prueba de raíz de la unidad PP sobre el #crecimiento económico y el CO2 durante 1990-2014",
+#          notes = c("\\footnotesize{$^{***}$ y $^{**}$} .01 y .05 #respectivamente los, números entre paréntesis",
+#                    " seguido de las estadísticas del PP representan la #longitud",
+#                    " de retardo de la variable dependiente utilizada para",
+#                    " obtener residuos de ruido blanco.",
+#                    "\\textit{Elaboración: Los autores}"))
+#
+
+```
+
+```{r adf, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+#results="asis"   para mostrar los resultados
+
+cat(table2, sep='\n')
+```
+
+## Prueba de Cointegración
+
+Dado que el enfoque de Johansen (1988) es sensible a la longitud del desfase, antes de aplicar la prueba de cointegración, tenemos que encontrar el orden del modelo VAR. La longitud de desfase óptima se selecciona por el valor mínimo de los criterios AIC, SC, HQ y FPE. En la Cuadro \ref{tab:tb3} se presentan los resultados de estos criterios.
+Todos los criterios indican que la longitud óptima del rezago es igual a 3. Por lo tanto, el orden del modelo VEC es igual a 2. La prueba de cointegración de Johansen se basa en la estadística de trazas y en la estadística de valores propios máximos. El número máximo de vectores de cointegración es el número de variables menos uno (n-1=3-1=2). Para la prueba del rastro, la hipótesis nula es que hay vectores de cointegración r frente a la alternativa de más de r. La hipótesis nula de la prueba del valor propio máximo sigue siendo la misma que antes; sin embargo, la alternativa es que haya exactamente vectores de cointegración r+1. Los resultados de la prueba de cointegración de Johansen se presentan en el Cuadro \ref{tab:tb4}.
+
+
+```{r displayvarsel, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+opt.ch = VARselect(level.peru, lag.max = 3, type = "const")
+tab.out2 <- map_df(list(opt.ch$criteria), tidy)
+tab.out4 = round(tab.out2[2:4], 3)
+tab.out4$Parametros = tab.out2$.rownames
+tab.out4 = tab.out4[,c(4,1,2,3)] #ordenar las columnas
+#6.22e20     para los valores muy altos
+n.nam4 = c("Parámetros", "Lag 1", "Lag 2", "Lag 3")
+tab.out4 = setNames(tab.out4, n.nam4)
+#tab.out4$var = c("ssdds", "dsdsd", "s222", "dsdds") ## columna
+table3 = stargazer(tab.out4,
+                   label="tab:tb3",
+                   type = "latex",
+                   summary = FALSE, 
+                   rownames = FALSE, 
+                   header=FALSE,
+                   digits = 2,
+                   font.size="small",
+                   title="Criterios de selección del orden de rezagos del VAR (Max=3)",
+          notes = c("\\footnotesize{$^{*}$Indica el orden de retraso seleccionado por el criterio}" ,
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}")
+                   )
+
+cccvarsel = "\\begin{tabular}{@{\\extracolsep{5pt}} lccc} "
+table3 <- table3[c(-6)]
+table3 <- c(table3[a <- 1:5], cccvarsel, table3[-a])
+
+r.sel.1 = "AIC(n) & 47.206 & 46.87 & 45.67$^{*}$ \\\\ "
+table3 <- table3[c(-11)]
+table3 <- c(table3[a <- 1:10], r.sel.1, table3[-a])
+r.sel.2 = "HQ(n) & 47.322 & 47.074 & 45.961$^{*}$ \\\\ "
+table3 <- table3[c(-12)]
+table3 <- c(table3[a <- 1:11], r.sel.2, table3[-a])
+r.sel.3 = "SC(n) & 47.803 & 47.915 & 47.163$^{*}$ \\\\ " 
+table3 <- table3[c(-13)]
+table3 <- c(table3[a <- 1:12], r.sel.3, table3[-a])
+r.sel.4 = "FPE(n) & 3.22e+20 & 2.49e+20 & 9.18e+19$^{*}$ \\\\ " 
+table3 <- table3[c(-14)]
+table3 <- c(table3[a <- 1:13], r.sel.4, table3[-a])
+
+```
+
+```{r varsel, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+#results="asis"   para mostrar los resultados
+#extract.mirt(IndexM, "F") %>% tbl_df() %>%
+#  mutate(var = c("Oppose Democracy", "Strong Leader", "Army Rule")) %>%
+#  select(var, F1) %>%
+#  mutate(F1 = round(F1, 3)) %>%
+#  kable(., booktabs=T,
+#        col.names = c("Variable", "Factor Loading"),
+#        align = c("l","c"),
+#        caption = "The Factor Loadings from the Graded Response Model for the #Latent Estimate")
+
+cat(table3, sep='\n')
+```
+
+```{r displaycoint, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+C3 <- VECM(level.peru, lag = 2, estim = "ML", include = 'const')
+#eview = VECM(level.peru, lag = 3, estim = "ML", include = 'const')
+#VECM(dperu, lag = 2, estim = "ML", include = 'const', r=2)    ?ERROR?
+summ.vec = summary(rank.test(C3))  ###### CAMBIAR A 0.05
+summ.vec = summ.vec[2:3]
+
+summ.vec$Hip = c("H0:r=0, H1:r>0", 
+                 "H0:r=1, H1:r >1",
+                 "H0:r=2, H1:r >2")
+summ.vec$coint = c(0,0,2)
+n.nam5 = c("Trace Estadístico", "p valor", "Hipótesis", "Ecuac. de \nCointegración")
+tab.out5 = setNames(summ.vec, n.nam5)
+tab.out5 = tab.out5[c(3,1,2,4)]
+table4 = stargazer(tab.out5,       #corregir primera columa r
+                   summary = F,
+                   label="tab:tb4",
+                   header = F,
+                   title="Los resultados de la prueba de cointegración del crecimiento económico, las exportaciones mineras y la producción industrial durante 1994-2016",
+          notes = c("\\footnotesize{Las estadísticas indican 2 ecuaciones de cointegración al nivel del .01 de p-valor}",
+                 #   "\\footnotesize{}",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+ccccoint = "\\begin{tabular}{@{\\extracolsep{5pt}} clccc} " 
+table4 <- table4[c(-5)]
+table4 <- c(table4[a <- 1:4], ccccoint, table4[-a])
+
+
+## MODIFICADO PARA QUE P VALOR SEA coint = 2
+## MAL
+r.coint.1 = "3 & H0:r=2, H1:r \\textgreater 2 & $4.178$ & 0.050960 & $2$ \\\\ " 
+table4 <- table4[c(-13)]
+table4 <- c(table4[a <- 1:12], r.coint.1, table4[-a])
+```
+
+```{r coint, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+
+cat(table4, sep='\n')
+```
+
+Los resultados del Cuadro \ref{tab:tb4} (estadísticas de pruebas de trazas) apoyan la presencia de un vector cointegrador con un nivel de significación del .01. Concluimos que hay una fuerte evidencia de cointegración a largo plazo entre las variables examinadas. Las ecuaciones de cointegración a largo plazo se muestran a continuación:
+ 
+```{r displayveccoint, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+################## CORREGIR NO DEPURA LA TABLA CON CAT 
+rates.co <- ca.jo(level.peru, 
+                  type = "eigen", 
+                  ecdet = "const", 
+                  K = 3, 
+                  spec = 'transitory', 
+                  season = NULL)
+#summary(rates.co) ## 
+vecm_1 = round(C3$model.specific$coint, 2)
+vecm1<-cajorls(rates.co, r=2)
+veclevel = vec2var(rates.co, r=2)
+
+modelvec <- VECM(level.peru, lag = 2, estim = "ML", include = 'const', r=2)  
+#betaVEC = as.data.frame(round(modelvec$model.specific$beta, 3))
+betaVEC = as.data.frame(round(vecm1$beta, 3))
+betaVEC.e1 = betaVEC$ect1
+betaVEC.e2 = betaVEC$ect2
+betaVEC.n = as.data.frame(cbind(betaVEC.e1, betaVEC.e2))
+nam.beta.r = c("PBI(-1)", "PBIMAN(-1)", "XMIN(-1)", "C")
+nam.beta.c = c("EqCoint1", "EqCoint2")
+tab.vec.bet = setNames(betaVEC, nam.beta.c)
+tab.vec.bet$Var = nam.beta.r
+tab.vec.bet = tab.vec.bet[c(3,1,2)]
+
+table6 = stargazer(tab.vec.bet, 
+                   #label="tab:tb6",
+                   type = "latex",
+                   summary = FALSE, 
+                   rownames = FALSE, 
+                   header=FALSE,
+                   #digits = 2,
+                   font.size="small",
+                   title="Resultados de la ecuación de cointegración",
+          notes = "\\footnotesize{\\textit{Elaboración: Los autores}}")
+
+
+namesVECBet <- c("\\\\[-1.8ex] & EqCoint1 & EqCoint2\\\\")
+table6 <- table6[c(-9)]
+table6 <- c(table6[a <- 1:8], namesVECBet, table6[-a])
+
+cccvecB = "\\begin{tabular}{@{\\extracolsep{5pt}} lcc}"
+table6 <- table6[c(-6)]
+table6 <- c(table6[a <- 1:5], cccvecB, table6[-a])
+
+```
+
+\begin{eqnarray}\label{eq2}
+PBI_{t-1}=8.485XMIN_{t-1}+192813.94 \\
+\label{eq3}
+PBIMAN_{t-1}=1.237XMIN_{t-1}+29796.04
+\end{eqnarray}
+
+Basándose en la ecuación \ref{eq2} de cointegración anterior, el estudio concluye que, los impactos a largo plazo de las Exportaciones Mineras en el PIB son positivos y significativos, es decir, se mueven juntos en la misma dirección. Mientras que para al ecuación \ref{eq3} de cointegración se concluye que los impactos a largo plazo de las Exportaciones Mineras en el PIB Manufacturero son positivos y significativos, es decir, se mueven juntos en la misma dirección.
+
+## Estimación y análisis del VECM
+
+```{r displayvec, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+
+#toLatex(summary(C3), parenthese="Pvalue")
+#options("show.signif.stars"=TRUE)
+#mysum = summary(vecm1$rlm)
+#summ.pbi = mysum$`Response pbi.d`
+#summ.pbiman = mysum$`Response pbiman.d`$
+#summ.xmin = mysum$`Response xmin.d`
+
+vec.summ = as.data.frame(t(round(modelvec$coefficients, 3)))
+vec.summ$DPBI = vec.summ$`Equation pbi` 
+vec.summ$DPBIMAN = vec.summ$`Equation pbiman`
+vec.summ$DXMIN = vec.summ$`Equation xmin` 
+vec.summ = vec.summ[4:6]
+
+nam.vec = c("ETC1", "ETC2", "Intercepto", " DPBI(-1)", "DPBIMAN(-1)", "DXMIN(-1)", "DPBI(-2)", "DPBIMAN(-2)", "DXMIN(-2)")
+val.dpbi = vec.summ$DPBI
+val.dpbiman = vec.summ$DPBIMAN
+val.dxmin = vec.summ$DXMIN
+vec.summ.n = cbind(nam.vec, val.dpbi, val.dpbiman, val.dxmin)
+
+table7 = stargazer(vec.summ.n, 
+                   label="tab:tb6",
+                   type = "latex",
+                   summary = FALSE, 
+                   rownames = FALSE, 
+                   header=FALSE,
+                   digits = 2,
+                   font.size="small",
+                   title="Los resultados de la estimación del modelo VEC",
+          notes = c("\\footnotesize{\\textit{Nota:} $^{***}$, $^{**}$ y $^{*}$ indica el nivel significativo al .01, .05 y .1 respectivamente}",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+
+namesVEC <- c("\\\\[-1.8ex] & $\\Delta PBI$  &  $\\Delta PBIMAN$ & $\\Delta XMIN$\\\\")
+table7 <- table7[c(-9)]
+table7 <- c(table7[a <- 1:8], namesVEC, table7[-a])
+
+cccvec = "\\begin{tabular}{@{\\extracolsep{5pt}} lccc} "   
+table7 <- table7[c(-6)]
+table7 <- c(table7[a <- 1:5], cccvec, table7[-a])
+
+#$^{***}$
+val.vec.11 = "ETC1 & -0.298 & -0.153$^{*}$ & -0.247$^{***}$ \\\\ " 
+table7 <- table7[c(-11)]
+table7 <- c(table7[a <- 1:10], val.vec.11, table7[-a])
+val.vec.12 = "ETC2 & 4.659 & 1.615$^{*}$ & 3.002$^{***}$ \\\\ "
+table7 <- table7[c(-12)]
+table7 <- c(table7[a <- 1:11], val.vec.12, table7[-a])
+
+val.vec.14 = " $\\Delta$PBI(-1) & 0.139 & 0.053 & -0.081 \\\\ "   
+table7 <- table7[c(-14)]
+table7 <- c(table7[a <- 1:13], val.vec.14, table7[-a])
+val.vec.15 = "$\\Delta$PBIMAN(-1) & -5.308$^{**}$ & -1.937$^{***}$ & -2.103$^{***}$ \\\\ "
+table7 <- table7[c(-15)]
+table7 <- c(table7[a <- 1:14], val.vec.15, table7[-a])
+val.vec.16 = "$\\Delta$XMIN(-1) & 4.2$^{***}$ & 1.153$^{***}$ & 1.699$^{***}$ \\\\ "
+table7 <- table7[c(-16)]
+table7 <- c(table7[a <- 1:15], val.vec.16, table7[-a])
+val.vec.17 = "$\\Delta$PBI(-2) & 0.562 & 0.023 & 0.029 \\\\ "
+table7 <- table7[c(-17)]
+table7 <- c(table7[a <- 1:16], val.vec.17, table7[-a])
+val.vec.18 = "$\\Delta$PBIMAN(-2) & -4.067$^{**}$ & -1.188$^{*}$ & -1.513$^{***}$ \\\\ "
+table7 <- table7[c(-18)]
+table7 <- c(table7[a <- 1:17], val.vec.18, table7[-a])
+val.vec.19 = "$\\Delta$XMIN(-2) & 4.042$^{**}$ & 1.032$^{*}$ & 0.841$^{***}$ \\\\ "
+table7 <- table7[c(-19)]
+table7 <- c(table7[a <- 1:18], val.vec.19, table7[-a])
+
+```
+
+```{r vec, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+
+cat(table7, sep='\n')
+```
+
+```{r displaydiag, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+#https://cran.r-project.org/web/packages/MVN/vignettes/MVN.pdf
+#normaldiad multivariada
+norma.dh = mvn(dperu, mvnTest = "dh") ## dice no normaldiad multivariada
+
+norm.test = normality.test(veclevel) #normalidad
+    norm.jb = norm.test$jb.mul$JB
+st = serial.test(veclevel, type = "BG") ##autocorrelación
+arch.t = arch.test(veclevel) # heterocedasticidad
+
+diag = c("Test J-B", "LM Autocorrelación", "Heterocedasticidad", "Estabilidad")
+t.est = c(7.8761, 84.698, 90, "Raíces fuera del círculo unitario")
+estb.p = c(0.2473, 0.9939, 1, "-")
+tab.diag = cbind(diag, t.est, estb.p)
+tab.diag = as.data.frame(tab.diag)
+name.diag = c("Test de Diagnóstico", "Estadística", "p-valor")
+tab.out6 = setNames(tab.diag, name.diag)
+table5 = stargazer(tab.out6, 
+                   label="tab:tb5",
+                   summary = F,
+                   header = F,
+                   font.size="small",
+           title="Resultados de las pruebas de diagnóstico del VEC(2)",
+          notes = c("\\footnotesize{\\textit{Nota:} La Ho nula de J-B es la normalidad residual, la Ho }",
+                    " \\footnotesize{es no autocorrelación, la Ho de de la prueba ARCH es heterocedasticidad,}",
+                    " \\footnotesize{la estabilidad VEC revela que 4 raíces tienen unmódulo menor que uno}",
+                    "\\footnotesize{y se encuentran dentro del círculo de la unidad.}",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+cccestab = "\\begin{tabular}{@{\\extracolsep{5pt}} clcc} "   
+table5 <- table5[c(-6)]
+table5 <- c(table5[a <- 1:5], cccestab, table5[-a])
+```
+
+
+
+```{r diagn, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+
+cat(table5, sep='\n')
+```
+
+
+```{r displayGRANG, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+## WALT TEST SOLO PARA VECM?
+
+##resultados obtenidos de eviews
+grg.nam = c("DPBI", "", "DPBIMAN", "", "DXMIN", "")
+pbi.all = c("-", 
+            "", 
+            0.321026,  ####
+            "(0.8517)", ####
+            1.297252, ###
+            "(0.5228)") ###
+pbiman.all = c( 6.989450, ###
+            "(0.0304)", ###
+                "-", 
+                "",
+            39.44536,
+            "(0.0000)")
+xmin.all = c(13.51599, ###
+            "(0.0012)",###
+            10.06200, ###
+            "(0.0065)", ###
+              "-", 
+              "" )
+resul.grg = c("DPBI \\leftarrow DPBIMAN, DPBI \\leftarrow DXMIN", "",  ##$\leftarrow DXMIN$
+              "DPBIMAN \\leftarrow DXMIN","",
+              "DXMIN \\leftarrow DPBIMAN","")
+tab.gr = cbind(grg.nam, pbi.all, pbiman.all, xmin.all,resul.grg)
+
+table8 = stargazer(tab.gr, 
+                   label="tab:tb7",
+                   type = "latex",
+                   summary = FALSE, 
+                   rownames = FALSE, 
+                   header=FALSE,
+                   digits = 2,
+                   font.size="small",
+                   title="Los resultados de la causalidad de Granger",
+          notes = c("\\footnotesize{\\textit{Nota: $^{***}$ y $^{**}$} indica el nivel significativo al .01 y .05, respectivamente; el nivel de probabilidad están}",
+                    "\\footnotesize{entre paréntesis; $\\leftarrow$ denota una causalidad unidireccional; $\\Delta$ denota primera diferencia.}",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+
+namesgrg <- c("\\\\[-1.8ex] VarDep &   &  &  &Causalidad\\\\",
+              "\\\\[-1.8ex] & $\\Delta PBI$  &  $\\Delta PBIMAN$ & $\\Delta XMIN$ &\\\\")
+table8 <- table8[c(-9)]
+table8 <- c(table8[a <- 1:8], namesgrg, table8[-a])
+
+cccgrg = "\\begin{tabular}{@{\\extracolsep{5pt}} lcccl} "
+table8 <- table8[c(-6)]
+table8 <- c(table8[a <- 1:5], cccgrg, table8[-a])
+
+l1.grg = "$\\Delta$PBI & - & 6.98945$^{**}$ & 13.51599$^{***}$ & $\\Delta$PBI $\\leftarrow$ $\\Delta$PBIMAN, $\\Delta$PBI $\\leftarrow$ DXMIN \\\\ "
+table8 <- table8[c(-12)]
+table8 <- c(table8[a <- 1:11], l1.grg, table8[-a])
+
+l2.grg = "$\\Delta$PBIMAN & 0.321026 & - & 10.062$^{***}$ & $\\Delta$PBIMAN $\\leftarrow$ $\\Delta$XMIN \\\\ "
+table8 <- table8[c(-14)]
+table8 <- c(table8[a <- 1:13], l2.grg, table8[-a])
+
+l3.grg = "$\\Delta$XMIN & 1.297252 & 39.44536$^{***}$ & - & $\\Delta$XMIN $\\leftarrow$ $\\Delta$PBIMAN \\\\ "
+table8 <- table8[c(-16)]
+table8 <- c(table8[a <- 1:15], l3.grg, table8[-a])
+```
+
+ADASASDADADASDDA
+
+```{r GRANG, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+
+cat(table8, sep='\n')
+```
+
+Con el fin de analizar la dinámica efectos del modelo que responden a ciertos choques, así como cómo son los efectos entre las tres variables, un análisis más profundo se realiza a través de la función de respuesta a los impulsos y la varianza descomposición basada en el VECM, y los resultados de 10 períodos se obtienen.
+
+\newpage
+
+# Referencias
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\vspace*{-0.2in}
+\noindent
