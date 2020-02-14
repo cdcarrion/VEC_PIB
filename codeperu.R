@@ -45,12 +45,12 @@ summary(rank.test(C3))
 C3.n <- VECM(level.peru, lag = 2, estim = "ML", include = 'const', r=2)
 C3.n$coefficients  
 t(C3.n$model.specific$beta) #transpuesta
-pred_C3 <- predict(C3.n, n.ahead = 3)
+pred_C3 <- predict(C3.n, n.ahead = 1)
 ee4 = rbind(level.peru, pred_C3)
 matplot(ee4, type = "l")
-plot(ee4$pbi, type = "l")
+plot(ee4$xmin, type = "l")
 par(new = TRUE)
-plot(level.peru$pbi, type = "l", lty = 2, col = "red")
+plot(level.peru$xmin, type = "l", lty = 2, col = "red")
 
 
 #https://stats.stackexchange.com/questions/203614/vecm-for-2-stationary-and-1-integrated-series?rq=1
