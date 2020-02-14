@@ -7,7 +7,7 @@ output:
     latex_engine: pdflatex
     keep_tex: true
     template: C:/Users/crist/Documents/DOC OLD/svm-r-markdown-templates-master/svm-latex-ms.tex
-title: "La relación a largo plazo y la causalidad entre las exportacioens mineras, la producción industrial y el crecimiento económico en Perú"
+title: "La relación a largo plazo y la causalidad entre las exportaciones mineras, la producción industrial y el crecimiento económico en Perú"
 subtitle: "Un estudio de caso utilizando un modelo VEC"
 author:
 - name: Cristian Carrión
@@ -28,9 +28,9 @@ appendixletter: A
 #spacing: double            #margen doble
 bibliography: C:/Users/crist/Documents/eco2/trabajo_eco2/doc/vecbib.bib  #no va a dectecta por la carpeta que tiene "ñ" y posible el "espacio"
 biblio-style: apsr
-abstract: El medio ambiente se convirtió en una cuestión de importancia internacional en 1972, cuando se celebró en Estocolmo la Conferencia de las Naciones Unidas sobre el Medio Ambiental. La relación entre crecimiento económico y medio ambiente ha sido polémica durante mucho tiempo, por los 
+abstract: Este documento investiga la relación entre la exportación minera, la producción industrial y el crecimiento económico en la Republica del Perú utilizando los datos correspondientes  a las variables del  Producto Bruto Interno (PBI), Valores FOB de las exportaciones mineras metálicas (XMIN) y el Producto Bruto Interno manufacturero (PBIMAN) correspondientes a los años de 1994-2016, se escoge este periodo debido a que a partir de 1993 rige la nueva Constitución Política del Perú, que permitió el mayor ingreso de inversiones a los diferentes sectores de la economía nacional. La técnica de cointegración multivariante se ha empleado para ver la relación de equilibrio a largo plazo entre las variables. Además, se ha adoptado la causalidad de Granger basada en el modelo de corrección de errores de vectores (VECM) para ver la causalidad a corto y largo plazo entre las variables. Los resultados de la cointegración confirman que las exportaciones de minerales, la producción industrial y el crecimiento económico están cointegrados, lo que indica una existencia de una relación de equilibrio a largo plazo entre variables Del mismo modo, el resultado de causalidad de Granger de VECM sostiene que existe una relación de causalidad de Granger a largo plazo que va desde el crecimiento económico y la producción industrial hasta la exportación de minerales del Perú.
 #endnote: no
-thanks: "La replicacion de los archivos están disponibles en la página Github del autor ([github.com/cristian1512](https://github.com/cristian1512))"
+thanks: "La replicación de los archivos están disponibles en la página Github del autor ([github.com/cristian1512](https://github.com/cristian1512))"
 header-includes:
   -  \usepackage{hyperref}
   - \usepackage[spanish]{babel}
@@ -105,18 +105,23 @@ df1 <- dbperu %>%
 
 # Introducción
 
- Durante las últimas décadas, el debate de la relación entre crecimiento económico y el medio ambiente se ha intensificado a nivel teórico y mediante aplicaciones empíricas en diversas partes del mundo. La actividad productiva, extractiva y consumista de la sociedad durante siglos dejó de considerar que vivir en un ambiente sano es una necesidad indispensable para los individuos. Desde 1990, el vínculo entre las emisiones de CO 2 y El crecimiento económico ha sido ampliamente estudiado. Prueba de ello es la cuantiosa proliferación de informes ambientales y ecológicos, cumbres del planeta, o posiciones ideológicas adoptadas.
+El Perú es el país con mayor atractivo para la inversión minera en la región. Debido a la concentración de inversiones en el sector minero y a los altos precios internacionales, los minerales metálicos han llegado a representar el 5% de las exportaciones totales del país al 2016, teniendo un impacto directo sobre el producto bruto interno (Instituto Peruano de Economía, 2017). 
 
+La relación bilateral entre varias variables hace más complejo el proceso de un modelo econométrico. Uno de los pasos principales para modelar una determinada relación entre variables es la especificación del modelo econométrico. La elección del método depende del propósito de la evaluación y la evaluación de la disponibilidad de datos. Modelos como VAR y VECM se usan con mayor frecuencia en el tratamiento de tales relaciones, que tienen más de una variable endógena.
+Un factor preocupante es el impacto ambiental de la minería, puesto que ya en los años 80 era señalada como la actividad económica más contaminante. Por ello, se han establecido programas de evaluación de pasivos ambientales y planes de adecuación ambiental para la gran minería. Se estima en alrededor de US\$ 977,1 millones la inversión necesaria para mitigar la contaminación ambiental producida por las unidades mineras operativas. En cuanto a la mediana y pequeña minería, se estima que existe un saldo de pasivos ambientales de aproximadamente US\$ 181,4 millones, principalmente por contaminación en cuencas petrolíferas y lavaderos de oro. No obstante, la indefinición de derechos de propiedad reduce los incentivos para que las normas ambientales sean aplicadas y dificulta la fiscalización.
+
+El presente trabajo tiene por objetivo principal: determinar cuál ha tenido mayor incidencia sobre el crecimiento económico en el Perú en el periodo 1994-2016. Los objetivos específicos son: 1) Determinar la existencia de una relación de equilibrio en el largo plazo entre las exportaciones mineras metálicas, la producción industrial y el crecimiento económico, para hallar una sincronización en el tiempo que refleje una relación confiable y determinante; 2) Determinar la direccionalidad de la relación causal entre las exportaciones mineras metálicas, la producción industrial y el crecimiento económico. 
 
 # Revisión de la literatura 
+sasdsdaadaddasdsaasd
 
-En la literatura, existen tres categorías de estudio sobre la relación entre emisiones de CO2 y crecimiento económico: La primera categoría se centra en la relación. entre contaminantes ambientales y crecimiento económico e investiga la validez de los Kuznets ambientales (1955) curva. La segunda categoría investiga el relación entre crecimiento económico y consumo de energía, y finalmente la tercera categoría examina la relación dinámica entre crecimiento económico, energía consumo y contaminantes ambientales(Vásquez Sánchez & García Rendón, 2003).
 
 # Datos y Metodología
 
 ## Datos
 
-En este estudio utilizamos datos anuales del  Exportaciones Mineras Metálicas *(XMIN)*, Producto Interno Bruto Manufacturero *(PBIMAN)* y el Producto Interno Bruto *(PBI)* de Italia durante el periodo de 1994-2016. Todos los datos recopilados del Banco Central de Perú.
+El crecimiento económico será representado mediante el producto bruto interno real *(PBI)*, dando la posibilidad de comparar la producción real en tiempos diferentes, siendo una buena medida para el crecimiento económico. El sector minero estará reflejado mediante los datos anuales de valores FOB de la exportación de minerales metálicos (cobre, zinc, oro, plata, estaño, hierro plomo y molibdeno), los cuales se tomaron como una sola variable *(XMIN)*, pues captura la actividad minera en crecimiento y el sector industrial mediante el Producto Bruto Interno Manufacturero *(PBIMAN)*:
+Los datos se obtuvieron de la base de datos del Banco Central de la Republica del Perú, del periodo de 1994-2016 expresados en precios del 2011, ya que en esa época el sector minero fue un soporte esencial en la económica peruana, pues fue un año de precios de los metales excepcionalmente altos. 
 
 ## Metodología
 
@@ -167,7 +172,7 @@ ggplot(df1, aes(x = year,
 hline <- "\\hline"
 newline <- "\\\\"
 
-descriptive <- with(dperu, data.frame(dperu))
+descriptive <- with(dbperu, data.frame(dbperu[2:4]))
 table1 <- stargazer(descriptive, title="Estadística Descriptiva para las Variables Usadas en el Análisis", 
                     header=FALSE, 
                     label="tab:descript",   ### para usar referencias el tab del label tiene que ser diferente del chunk
@@ -268,7 +273,7 @@ table2 = stargazer(tab.tst,
                    single.row=TRUE,
                    digits = 2,
            title="Los resultados de la prueba de raíz de la unidad ADF sobre el crecimiento económico y el CO2 durante 1990-2014",
-          notes = c("\\footnotesize{D: Primeraa Diferencia}",
+          notes = c("\\footnotesize{$\\Delta$: Primera Diferencia}",
             "\\footnotesize{\\textit{Elaboración: Los autores}}"))
 
 
@@ -281,6 +286,15 @@ cccadfpp = "\\begin{tabular}{@{\\extracolsep{5pt}} lcclccl} "
 table2 <- table2[c(-5)]
 table2 <- c(table2[a <- 1:4], cccadfpp, table2[-a])
 
+rnam.pp1 = "$\\Delta$PBI & -4.157 & 0.018 & Estacionario & -20.681 & 0.02 & Estacionario \\\\ "
+table2 <- table2[c(-15)]
+table2 <- c(table2[a <- 1:14], rnam.pp1, table2[-a])
+rnam.pp2 = "$\\Delta$PBIMAN & -3.96 & 0.025 & Estacionario & -20.272 & 0.023 & Estacionario \\\\ "
+table2 <- table2[c(-16)]
+table2 <- c(table2[a <- 1:15], rnam.pp2, table2[-a])
+rnam.pp3 = "$\\Delta$XMIN & -3.853 & 0.032 & Estacionario & -12.212 & 0.327 & No Estacionario \\\\ "
+table2 <- table2[c(-17)]
+table2 <- c(table2[a <- 1:16], rnam.pp3, table2[-a])
 ###########
 #tab2 <- map_df(list(t7, t8, t9, t10, t11, t12), tidy)
 #tab.out3 = round(tab2[1:2], 3)
@@ -318,20 +332,22 @@ cat(table2, sep='\n')
 
 ## Prueba de Cointegración
 
-Dado que el enfoque de Johansen (1988) es sensible a la longitud del desfase, antes de aplicar la prueba de cointegración, tenemos que encontrar el orden del modelo VAR. La longitud de desfase óptima se selecciona por el valor mínimo de los criterios AIC, SC, HQ y FPE. En la Cuadro \ref{tab:tb3} se presentan los resultados de estos criterios.
-Todos los criterios indican que la longitud óptima del rezago es igual a 3. Por lo tanto, el orden del modelo VEC es igual a 2. La prueba de cointegración de Johansen se basa en la estadística de trazas y en la estadística de valores propios máximos. El número máximo de vectores de cointegración es el número de variables menos uno (n-1=3-1=2). Para la prueba del rastro, la hipótesis nula es que hay vectores de cointegración r frente a la alternativa de más de r. La hipótesis nula de la prueba del valor propio máximo sigue siendo la misma que antes; sin embargo, la alternativa es que haya exactamente vectores de cointegración r+1. Los resultados de la prueba de cointegración de Johansen se presentan en el Cuadro \ref{tab:tb4}.
+Dado que el enfoque de Johansen (1988) es sensible a la longitud del retraso, antes de aplicar la prueba de cointegración, tenemos que encontrar el orden del modelo VEC,la longitud de desfase óptima se selecciona por el valor mínimo de los criterios AIC, SC, HQ y FPE. En la Cuadro \ref{tab:tb3} se presentan los resultados de estos criterios.
+Todos los criterios indican que la longitud óptima del rezago es igual a 2. Por lo tanto, el orden del modelo VEC es igual a 2. 
+
+La clave de la prueba de cointegración reside en la selección de la forma adecuada de la prueba de cointegración y el orden de retraso. La relación de cointegración entre las variables del modelo VEC se prueba generalmente con el método de Johnsen (1988). Aquí las secuencias seleccionadas son términos de tendencia lineal, y luego la forma de prueba de la ecuación de cointegración es sólo de intercepción. El número máximo de vectores de cointegración es el número de variables menos uno (n-1=3-1=2).
+La prueba de cointegración de Johansen sobre las Exportaciones Mineras, PIB Manufacturero y el PIB, en el Cuadro \ref{tab:tb4} muestra que, en la prueba de trazas los resultados de la prueba deben aceptar la hipótesis nula, por debajo del nivel del 5%, y existen dos relaciones positivas. Esto significa que hay relaciones de equilibrio estables y a largo plazo entre las variables. Partiendo de la premisa de la existencia de relaciones de cointegración, la modelización del VEC puede realizarse más adelante.
 
 
 ```{r displayvarsel, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
-opt.ch = VARselect(level.peru, lag.max = 3, type = "const")
+opt.ch = VARselect(level.peru, lag.max = 2, type = "const")
 tab.out2 <- map_df(list(opt.ch$criteria), tidy)
-tab.out4 = round(tab.out2[2:4], 3)
+tab.out4 = round(tab.out2[2:3], 3)
 tab.out4$Parametros = tab.out2$.rownames
-tab.out4 = tab.out4[,c(4,1,2,3)] #ordenar las columnas
+tab.out4 = tab.out4[,c(3,1,2)] #ordenar las columnas
 #6.22e20     para los valores muy altos
-n.nam4 = c("Parámetros", "Lag 1", "Lag 2", "Lag 3")
+n.nam4 = c("Parámetros", "Lag 1", "Lag 2")
 tab.out4 = setNames(tab.out4, n.nam4)
-#tab.out4$var = c("ssdds", "dsdsd", "s222", "dsdds") ## columna
 table3 = stargazer(tab.out4,
                    label="tab:tb3",
                    type = "latex",
@@ -340,25 +356,26 @@ table3 = stargazer(tab.out4,
                    header=FALSE,
                    digits = 2,
                    font.size="small",
-                   title="Criterios de selección del orden de rezagos del VAR (Max=3)",
-          notes = c("\\footnotesize{$^{*}$Indica el orden de retraso seleccionado por el criterio}" ,
+                   title="Criterios de selección del orden de rezagos del VEC (Max=2)",
+          notes = c("\\footnotesize{$^{*}$Indica el orden de retraso seleccionado por el }" ,
+                    "\\footnotesize{criterio}",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}")
                    )
 
-cccvarsel = "\\begin{tabular}{@{\\extracolsep{5pt}} lccc} "
+cccvarsel = "\\begin{tabular}{@{\\extracolsep{5pt}} lcc} "
 table3 <- table3[c(-6)]
 table3 <- c(table3[a <- 1:5], cccvarsel, table3[-a])
 
-r.sel.1 = "AIC(n) & 47.206 & 46.87 & 45.67$^{*}$ \\\\ "
+r.sel.1 = "AIC(n) & 47.043 & 46.69$^{*}$ \\\\ " 
 table3 <- table3[c(-11)]
 table3 <- c(table3[a <- 1:10], r.sel.1, table3[-a])
-r.sel.2 = "HQ(n) & 47.322 & 47.074 & 45.961$^{*}$ \\\\ "
+r.sel.2 = "HQ(n) & 47.172 & 46.917$^{*}$ \\\\ "
 table3 <- table3[c(-12)]
 table3 <- c(table3[a <- 1:11], r.sel.2, table3[-a])
-r.sel.3 = "SC(n) & 47.803 & 47.915 & 47.163$^{*}$ \\\\ " 
+r.sel.3 = "SC(n) & 47.64$^{*}$ & 47.735 \\\\ "   
 table3 <- table3[c(-13)]
 table3 <- c(table3[a <- 1:12], r.sel.3, table3[-a])
-r.sel.4 = "FPE(n) & 3.22e+20 & 2.49e+20 & 9.18e+19$^{*}$ \\\\ " 
+r.sel.4 = "FPE(n) & 2.73e20 & 2.05e20$^{*}$ \\\\ "
 table3 <- table3[c(-14)]
 table3 <- c(table3[a <- 1:13], r.sel.4, table3[-a])
 
@@ -380,9 +397,9 @@ cat(table3, sep='\n')
 
 ```{r displaycoint, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
 C3 <- VECM(level.peru, lag = 2, estim = "ML", include = 'const')
-#eview = VECM(level.peru, lag = 3, estim = "ML", include = 'const')
+#eview = VECM(level.peru, lag = 3, estim = "ML", include = 'const') ## para paper
 #VECM(dperu, lag = 2, estim = "ML", include = 'const', r=2)    ?ERROR?
-summ.vec = summary(rank.test(C3))  ###### CAMBIAR A 0.05
+summ.vec = summary(rank.test(C3))  ###### cambiar !!!!
 summ.vec = summ.vec[2:3]
 
 summ.vec$Hip = c("H0:r=0, H1:r>0", 
@@ -398,7 +415,6 @@ table4 = stargazer(tab.out5,       #corregir primera columa r
                    header = F,
                    title="Los resultados de la prueba de cointegración del crecimiento económico, las exportaciones mineras y la producción industrial durante 1994-2016",
           notes = c("\\footnotesize{Las estadísticas indican 2 ecuaciones de cointegración al nivel del .01 de p-valor}",
-                 #   "\\footnotesize{}",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}"))
 
 ccccoint = "\\begin{tabular}{@{\\extracolsep{5pt}} clccc} " 
@@ -468,14 +484,16 @@ table6 <- c(table6[a <- 1:5], cccvecB, table6[-a])
 ```
 
 \begin{eqnarray}\label{eq2}
-PBI_{t-1}=8.485XMIN_{t-1}+192813.94 \\
+PBI_{t-1}=35.103XMIN_{t-1}+283577.505 \\
 \label{eq3}
-PBIMAN_{t-1}=1.237XMIN_{t-1}+29796.04
+PBIMAN_{t-1}=2.308XMIN_{t-1}+33317.268
 \end{eqnarray}
 
-Basándose en la ecuación \ref{eq2} de cointegración anterior, el estudio concluye que, los impactos a largo plazo de las Exportaciones Mineras en el PIB son positivos y significativos, es decir, se mueven juntos en la misma dirección. Mientras que para al ecuación \ref{eq3} de cointegración se concluye que los impactos a largo plazo de las Exportaciones Mineras en el PIB Manufacturero son positivos y significativos, es decir, se mueven juntos en la misma dirección.
+Basándose en la ecuación \ref{eq2} de cointegración anterior, el estudio concluye que, los impactos a largo plazo de las Exportaciones Mineras en el PIB son positivos y significativos, es decir, se mueven juntos en la misma dirección. Mientras que para la ecuación \ref{eq3} de cointegración se concluye que los impactos a largo plazo de las Exportaciones Mineras en el PIB Manufacturero son positivos y significativos, es decir, se mueven juntos en la misma dirección.
 
 ## Estimación y análisis del VECM
+
+Los resultados del Cuadro \ref{tab:tb6} muestran que el grado de ajuste del modelo VEC R2 > 0,5, y los valores de los criterios AIC y SC son relativamente pequeños, lo que indica la razonabilidad de la estimación del modelo y la línea de promedio cero representa una relación de equilibrio estable y a largo plazo entre las variables. 
 
 ```{r displayvec, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
 
@@ -492,7 +510,7 @@ vec.summ$DPBIMAN = vec.summ$`Equation pbiman`
 vec.summ$DXMIN = vec.summ$`Equation xmin` 
 vec.summ = vec.summ[4:6]
 
-nam.vec = c("ETC1", "ETC2", "Intercepto", " DPBI(-1)", "DPBIMAN(-1)", "DXMIN(-1)", "DPBI(-2)", "DPBIMAN(-2)", "DXMIN(-2)")
+nam.vec = c("ETC1", "ETC2", "Intercepto", " DPBI(-1)", "DPBIMAN(-1)", "DXMIN(-1)")
 val.dpbi = vec.summ$DPBI
 val.dpbiman = vec.summ$DPBIMAN
 val.dxmin = vec.summ$DXMIN
@@ -545,6 +563,17 @@ table7 <- c(table7[a <- 1:17], val.vec.18, table7[-a])
 val.vec.19 = "$\\Delta$XMIN(-2) & 4.042$^{**}$ & 1.032$^{*}$ & 0.841$^{***}$ \\\\ "
 table7 <- table7[c(-19)]
 table7 <- c(table7[a <- 1:18], val.vec.19, table7[-a])
+n.line = "\\hline \\\\[-1.8ex] " 
+r2.vec =  "R$^{2}$ & 0.9257 & 0.7433 & 0.9142 \\\\ "
+table7 <- c(table7[a <- 1:20], r2.vec, table7[-a])
+table7 <- c(table7[a <- 1:21], n.line, table7[-a])
+ll.vec =  "Log likelihood &  & -513.9239 &  \\\\ "
+table7 <- c(table7[a <- 1:22], ll.vec, table7[-a])
+aic.vec = "AIC &  & 54.29239 &  \\\\ "
+table7 <- c(table7[a <- 1:23], aic.vec, table7[-a])
+sc.vec = "SC &  & 55.7362 &  \\\\ "
+table7 <- c(table7[a <- 1:24], sc.vec, table7[-a])
+table7 <- c(table7[a <- 1:25], n.line, table7[-a])
 
 ```
 
@@ -553,46 +582,9 @@ table7 <- c(table7[a <- 1:18], val.vec.19, table7[-a])
 cat(table7, sep='\n')
 ```
 
-```{r displaydiag, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
-#https://cran.r-project.org/web/packages/MVN/vignettes/MVN.pdf
-#normaldiad multivariada
-norma.dh = mvn(dperu, mvnTest = "dh") ## dice no normaldiad multivariada
-
-norm.test = normality.test(veclevel) #normalidad
-    norm.jb = norm.test$jb.mul$JB
-st = serial.test(veclevel, type = "BG") ##autocorrelación
-arch.t = arch.test(veclevel) # heterocedasticidad
-
-diag = c("Test J-B", "LM Autocorrelación", "Heterocedasticidad", "Estabilidad")
-t.est = c(7.8761, 84.698, 90, "Raíces fuera del círculo unitario")
-estb.p = c(0.2473, 0.9939, 1, "-")
-tab.diag = cbind(diag, t.est, estb.p)
-tab.diag = as.data.frame(tab.diag)
-name.diag = c("Test de Diagnóstico", "Estadística", "p-valor")
-tab.out6 = setNames(tab.diag, name.diag)
-table5 = stargazer(tab.out6, 
-                   label="tab:tb5",
-                   summary = F,
-                   header = F,
-                   font.size="small",
-           title="Resultados de las pruebas de diagnóstico del VEC(2)",
-          notes = c("\\footnotesize{\\textit{Nota:} La Ho nula de J-B es la normalidad residual, la Ho }",
-                    " \\footnotesize{es no autocorrelación, la Ho de de la prueba ARCH es heterocedasticidad,}",
-                    " \\footnotesize{la estabilidad VEC revela que 4 raíces tienen unmódulo menor que uno}",
-                    "\\footnotesize{y se encuentran dentro del círculo de la unidad.}",
-                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
-
-cccestab = "\\begin{tabular}{@{\\extracolsep{5pt}} clcc} "   
-table5 <- table5[c(-6)]
-table5 <- c(table5[a <- 1:5], cccestab, table5[-a])
-```
-
-
-
-```{r diagn, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
-
-cat(table5, sep='\n')
-```
+El Cuadro \ref{tab:tb7} proporciona los resultados estimados de la causalidad en el sentido de Granger del Vector Error Correction (VEC) que exhibe causalidad tanto a corto como a largo plazo.
+En el Cuadro \ref{tab:tb7} muestra el término de corrección de errores para la ecuación de cointegración con PIB, PIBMAN y XMIN como variables dependientes. En el Cuadro \ref{tab:tb7}, se destaca que existe una relación de causalidad en el sentido de Granger entre las Exportaciones Mineras Metálicas y el nivel de  producción interna bruta manufacturero en las dos direcciones, mientras que hay una relación de causalidad en una dirección de las Exportaciones Mineras Metálicas hacia el PIB, al igual que existe una relación de causalidad en el sentido de Granger unidireccional entre el nivel de  producción interna bruta manufacturero hacia el PIB , y por último, No existe una relación de causalidad del PIB hacia las otras dos variables analizadas. en ninguna dirección.
+Los recursos minerales son materias primas para el sector industrial de la economía. Como resultado, actúa como una inversión de inventario en el proceso de producción industrial. La expansión del crecimiento económico requiere un mayor stock de capital y que a su vez requieren una mayor tasa de inversión en inventario en el sector industrial de la economía.
 
 
 ```{r displayGRANG, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
@@ -632,8 +624,8 @@ table8 = stargazer(tab.gr,
                    digits = 2,
                    font.size="small",
                    title="Los resultados de la causalidad de Granger",
-          notes = c("\\footnotesize{\\textit{Nota: $^{***}$ y $^{**}$} indica el nivel significativo al .01 y .05, respectivamente; el nivel de probabilidad están}",
-                    "\\footnotesize{entre paréntesis; $\\leftarrow$ denota una causalidad unidireccional; $\\Delta$ denota primera diferencia.}",
+          notes = c("\\footnotesize{\\textit{Nota: $^{***}$ y $^{**}$} indica el nivel significativo al .01 y .05, respectivamente; el t estadistico de cada coeficiente}",
+                    "\\footnotesize{ estimado está entre paréntesis; $\\leftarrow$ denota una causalidad unidireccional; $\\Delta$ denota primera diferencia.}",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}"))
 
 
@@ -659,14 +651,57 @@ table8 <- table8[c(-16)]
 table8 <- c(table8[a <- 1:15], l3.grg, table8[-a])
 ```
 
-ADASASDADADASDDA
-
 ```{r GRANG, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
 
 cat(table8, sep='\n')
 ```
 
-Con el fin de analizar la dinámica efectos del modelo que responden a ciertos choques, así como cómo son los efectos entre las tres variables, un análisis más profundo se realiza a través de la función de respuesta a los impulsos y la varianza descomposición basada en el VECM, y los resultados de 10 períodos se obtienen.
+La eficiencia del modelo ha sido probada para el supuesto de normalidad, distribución heterosedastica y presencia de correlación serial. La distribución normal de los residuos se ha examinado en función del resultado del estadístico de Jarque-Bera
+
+```{r displaydiag, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
+#https://cran.r-project.org/web/packages/MVN/vignettes/MVN.pdf
+#normaldiad multivariada
+norma.dh = mvn(dperu, mvnTest = "dh") ## dice no normaldiad multivariada
+
+norm.test = normality.test(veclevel) #normalidad
+    norm.jb = norm.test$jb.mul$JB
+st = serial.test(veclevel, type = "BG") ##autocorrelación
+arch.t = arch.test(veclevel) # heterocedasticidad
+
+diag = c("Test J-B", "LM Autocorrelación", "Heterocedasticidad", "Estabilidad")
+t.est = c(7.8761, 84.698, 90, "Raíces fuera del círculo unitario")
+estb.p = c(0.2473, 0.9939, 1, "-")
+tab.diag = cbind(diag, t.est, estb.p)
+tab.diag = as.data.frame(tab.diag)
+name.diag = c("Test de Diagnóstico", "Estadística", "p-valor")
+tab.out6 = setNames(tab.diag, name.diag)
+table5 = stargazer(tab.out6, 
+                   label="tab:tb5",
+                   summary = F,
+                   header = F,
+                   font.size="small",
+           title="Resultados de las pruebas de diagnóstico del VEC(2)",
+          notes = c("\\footnotesize{\\textit{Nota:} La Ho nula de J-B es la normalidad residual, la Ho es no autocorrelación, }",
+                    " \\footnotesize{ la Ho de la prueba ARCH es heterocedasticidad, la estabilidad VEC revela que}",
+                    " \\footnotesize{  4 raíces tienen un módulo menor que uno y se encuentran dentro del círculo de }",
+                    "\\footnotesize{la unidad. }",
+                    "\\footnotesize{\\textit{Elaboración: Los autores}}"))
+
+cccestab = "\\begin{tabular}{@{\\extracolsep{5pt}} clcc} "   
+table5 <- table5[c(-6)]
+table5 <- c(table5[a <- 1:5], cccestab, table5[-a])
+```
+
+```{r diagn, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=FALSE, results="asis", message=F, warning=F}
+
+cat(table5, sep='\n')
+```
+
+# Conclusiones
+
+Los resultados sugieren que las exportaciones mineras metálicas han sido determinantes para el crecimiento económico del Perú en el periodo 1994-2016. A pesar que las divisas generadas por la exportación de minerales metálicos ayudan en gran medida lograr una mayor producción manufacturera, la orientación de inversiones hacia el sector minero pudieron haber ocasionado que el sector manufacturero no se expanda a un ritmo que le permita liderar el crecimiento económico
+Los resultados sugieren que existió una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú. Esto respalda el equilibrio a largo plazo entre la minería metálica y el crecimiento económico peruano (Ecuación \ref{eq2} y \ref{eq3}). Asimismo, se evidenció una causalidad de la producción industrial hacia el PIB Cuadro \ref{tab:tb7}.
+
 
 \newpage
 
