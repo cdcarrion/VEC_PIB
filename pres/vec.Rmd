@@ -1,0 +1,203 @@
+---
+title: "La relación a largo plazo y la causalidad entre las exportaciones mineras, la producción industrial y el crecimiento económico en Perú: Un estudio de caso utilizando un modelo VEC"
+short-title: "Relación a largo plazo y causalidad"
+author: "Cristian Carrión y Christian Socasi"
+short-author: "C & C"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'      # Month DD, YYYY (Main Slide)
+short-date: '`r format(Sys.Date(), "%m/%d/%Y")`' # MM/DD/YYYY (Lower Right)
+institute: "Escuela Politécnica Nacional"
+short-institute: "EPN"
+department: "Econometria 2"                # Institute must be defined
+#license: "Did you license this slide deck? "
+section-titles: false                            # Provides slide headings
+safe-columns: true                               # Enables special latex macros for columns.
+fontsize: 10pt
+output: 
+   uiucthemes::beamer_orange
+---
+
+# Introducción
+
+gjgjgjg
+
+# Revisión empírica
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/Captura.png)
+
+# Datos y Metodología
+##  Datos
+
++ El crecimiento económico será representado mediante el PBI
++ El sector minero estará reflejado mediante valores FOB de la exportación de minerales metálicos 
++ El PIB Manufacturero (Sector Industrial)
+
+\begin{block}{Fuente}
+Banco Central de la Republica del Perú (1994-2016) expresados en precios del 2011
+\end{block}
+
+
+## Metodología
+
+\begin{exampleblock}{Relación de las Variables}
+\begin{equation} 
+  PBI_t=\propto_0+\alpha_1PBIMAN_t+\alpha_2XMIN_t+\varepsilon_T     
+  \label{eq:eq1}
+\end{equation} 
+\end{exampleblock}
+
+Donde,
+
++ ${PBI}_t =$ Producto Interno Bruto
++ ${PBIMAN}_t =$ Producto Interno Bruto Manufacturero
++ ${XMIN}_t =$ 	Exportaciones Mineras Metálicas
++ $\varepsilon_t =$ Ruido Blanco 
+
+Donde,
+
++ $t$: 	 es la variable de tendencia.
+
+
+### Proceso de estimación
+
+1. Comprobación de estacionariedad de las series mediante ADF y PP
+2. Prueba de cointegración
+3. Comprobar la relación causal entre las variables
+
+### Evolución de las series
+
+\begin{figure}
+   \includegraphics[width=0.475\textwidth]{C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/fig1.png}
+   \hfill
+   \includegraphics[width=0.475\textwidth]{C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_2.png}
+\end{figure}
+
+# La relación causal entre las variables: Resultados Empíricos
+
+## Pruebas de Raíces Unitarias
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_3.png)
+
+\begin{exampleblock}{Resultado}
+Todas las variables son estacionarias en su primera diferencias para la prueba de ADF (I(1))
+\end{exampleblock}
+
+## Prueba de Cointegración
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_5.png)
+
+
+\begin{exampleblock}{Resultado}
+Existe una fuerte evidencia de cointegración a largo plazo entre las variables examinadas.
+\end{exampleblock}
+
+Las ecuaciones de cointegración a largo plazo se muestran a continuación:
+
+### Ecuaciones de Cointegración
+
+\begin{eqnarray}\label{eq2}
+PBI_{t-1}=35.103XMIN_{t-1}+283577.505 \\
+\label{eq3}
+PBIMAN_{t-1}=2.308XMIN_{t-1}+33317.268
+\end{eqnarray}
+
+
+- La eq. \ref{eq2}: Los impactos a L/P de las Exportaciones Mineras en el PIB son (+) y significativos, es decir se mueven juntos en la misma dirección.
+- La eq. \ref{eq3}: Los impactos a L/P de las Exportaciones Mineras en el PIB Industrial son (+) y significativos, es decir se mueven juntos en la misma dirección.
+
+## Estimación y análisis del VECM
+
+Las ecuaciones del modelo VEC que se utilizan para probar la causalidad de Granger
+
+\begin{equation}
+\tiny
+\begin{bmatrix}
+\Delta PIB_{t}\\ 
+\Delta PIBMAN_{t}\\ 
+\Delta XMIN_{t}
+\end{bmatrix}=
+\begin{bmatrix}
+\alpha _{1}\\ 
+\alpha _{2}\\ 
+\alpha _{3}
+\end{bmatrix}+
+\sum_{i=1}^{p}
+\begin{bmatrix}
+\beta_{11}  & \beta_{21}  & \beta_{31}\\ 
+\beta_{21} &  \beta_{21}  & \beta_{31}\\ 
+\beta_{31} &  \beta_{21}  & \beta_{31}
+\end{bmatrix}
+\begin{bmatrix}
+\Delta PIB_{t-i}\\ 
+\Delta PIBMAN_{t-i}\\ 
+\Delta XMIN_{t-i}
+\end{bmatrix}+
+\begin{bmatrix}
+\lambda _{1}\\ 
+\lambda _{2}\\ 
+\lambda _{3}
+\end{bmatrix}EMC_{t-1}+
+\begin{bmatrix}
+\mu _{1}\\ 
+\mu _{2}\\ 
+\mu _{3}
+\end{bmatrix}
+\label{eq:eq4}
+\end{equation}
+
+Donde,
+
+- i(i=1, … , p) es la longitud de retraso óptima determinada por los criterios anteriormente analizados.
+- ${ECM}_{t-1}$ es el residuo rezagado obtenido de la relación a largo plazo presentada en la ecuación \ref{eq:eq1}.
+- $\lambda_1$,$\lambda_2$ y $\lambda_3$ son los coeficientes de ajuste
+- $\mu_{1t}$, $\mu_{2t}$ y $\mu_{3t}$ son los términos de perturbación con $N(0, \sigma)$.
+
+### VECM
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_6.png)
+
+### Causalidad de Granger
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_7.png){width=80%}
+
+\begin{exampleblock}{Resultado}
+\begin{itemize}
+ \item Existe una relación de causalidad unidireccional en el sentido de Granger  entre las Exportaciones  Mineras Metálicas y el PIB.
+ \item Existe una relación de causalidad unidireccional en el sentido de Granger  entre el PB Manufacturero y el PIB.
+ \item Existe una relación de causalidad bidireccional en el sentido de Granger en una dirección de las Exportaciones Mineras Metálicas hacia el PIB Manufacturero.
+\end{itemize}
+\end{exampleblock}
+
+### Post-Estimación y Previsión
+
+\begin{exampleblock}{Resultado}
+\tiny
+\begin{itemize}
+        \item Normalidad Residual
+        \item No Errores Correlacionados
+        \item No Heterocedasticidad
+        \item Raíces fuera del circulo unitario 
+\end{itemize}
+\end{exampleblock}
+
+\begin{figure}
+   \includegraphics[width=0.55\textwidth]{C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/pred.pdf}
+\end{figure}
+
+# Conclusiones
+
+\begin{itemize}
+        \item La orientación de inversiones hacia el sector minero pudieron haber ocasionado que el sector manufacturero no se expanda a un ritmo que le permita liderar el crecimiento económico.
+        \item Existe una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú concordando con la relación de L/P (Eq. \ref{eq2} y \ref{eq3}).
+        \item Se evidenció una causalidad de la producción industrial hacia el PIB.
+        \item Raíces fuera del circulo unitario.
+\end{itemize}
+
+\begin{exampleblock}{Recomendación}
+La estrategia actual con la exportación de minerales como medio de ingresos de divisas no es viable ni justificable con respecto a lograr un desarrollo sostenible para la republica peruana.
+
+Por lo tanto, la extracción de minerales requiere un proceso de planificación sostenible así que el Gobierno del Perú debería tomar las medidas necesarias para extraer los recursos minerales sin comprometer el objetivo a largo plazo de la sostenibilidad.
+\end{exampleblock}
+
+# Bibliografía
+
+![](C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/bib.png)
