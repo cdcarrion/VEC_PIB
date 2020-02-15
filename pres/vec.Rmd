@@ -18,7 +18,13 @@ output:
 
 # Introducción
 
-gjgjgjg
+La minería en Perú
+\begin{itemize}
+        \item Representa normalmente más del 55\% de las exportaciones peruanas del 2016 con cifras alrededor de los 4.4  mil millones de dólares al año.
+        \item La minería es uno de los sectores más importantes de la economía peruana y representa normalmente más del 55\% de las exportaciones peruanas del 2016 con cifras alrededor de los 4.4  mil millones de dólares al año.
+        \item La minería metálica registró en febrero 2018 de este año un aumento por la mayor producción de zinc en 8.59\%; hierro, 41.17\%; cobre, 0.67\%; plata, 2.02\%; plomo, 5.75\%, y estaño, 5.87\%. La actividad económica. la Minería aportó con el 20\% de los Ingresos fiscales.
+
+\end{itemize}
 
 # Revisión empírica
 
@@ -70,6 +76,10 @@ Donde,
    \hfill
    \includegraphics[width=0.475\textwidth]{C:/Users/crist/Documents/eco2/trabajo_eco2/pres/vec/c_2.png}
 \end{figure}
+
+\begin{exampleblock}{Observación}
+El PIB del Perú ha estado en constante creciemiento en donde no se ha presentado ciclos de económicos depresivos en el periodo analizado.
+\end{exampleblock}
 
 # La relación causal entre las variables: Resultados Empíricos
 
@@ -162,8 +172,8 @@ Donde,
 \begin{exampleblock}{Resultado}
 \begin{itemize}
  \item Existe una relación de causalidad unidireccional en el sentido de Granger  entre las Exportaciones  Mineras Metálicas y el PIB.
- \item Existe una relación de causalidad unidireccional en el sentido de Granger  entre el PB Manufacturero y el PIB.
- \item Existe una relación de causalidad bidireccional en el sentido de Granger en una dirección de las Exportaciones Mineras Metálicas hacia el PIB Manufacturero.
+ \item Existe una relación de causalidad unidireccional en el sentido de Granger  entre el PIB Manufacturero y el PIB.
+ \item Existe una relación de causalidad bidireccional en el sentido de Granger entre las Exportaciones Mineras Metálicas y el PIB Manufacturero.
 \end{itemize}
 \end{exampleblock}
 
@@ -187,9 +197,8 @@ Donde,
 
 \begin{itemize}
         \item La orientación de inversiones hacia el sector minero pudieron haber ocasionado que el sector manufacturero no se expanda a un ritmo que le permita liderar el crecimiento económico.
-        \item Existe una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú concordando con la relación de L/P (Eq. \ref{eq2} y \ref{eq3}).
+        \item Existe una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú al igual que las exportaciones mineras hacia el PIB Industrial concordando con la relación de L/P (Eq. \ref{eq2} y \ref{eq3}).
         \item Se evidenció una causalidad de la producción industrial hacia el PIB.
-        \item Raíces fuera del circulo unitario.
 \end{itemize}
 
 \begin{exampleblock}{Recomendación}
