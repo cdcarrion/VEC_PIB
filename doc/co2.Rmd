@@ -2,8 +2,8 @@
 output: 
   pdf_document:
     fig_caption: true
-#    toc: true
-#    toc_depth: 2
+    toc: true
+    toc_depth: 2
     latex_engine: pdflatex
     keep_tex: true
     template: C:/Users/crist/Documents/DOC OLD/svm-r-markdown-templates-master/svm-latex-ms.tex
@@ -36,6 +36,7 @@ header-includes:
   - \usepackage[spanish]{babel}
   - \usepackage{caption}
   - \usepackage{multirow}
+  - \usepackage{amsmath}
 #  - \linespread{1.05}             margen?
 ---
 
@@ -103,17 +104,29 @@ df1 <- dbperu %>%
 ```
 
 
+\newpage
+
 # Introducción
 
-El Perú es el país con mayor atractivo para la inversión minera en la región. Debido a la concentración de inversiones en el sector minero y a los altos precios internacionales, los minerales metálicos han llegado a representar el 5% de las exportaciones totales del país al 2016, teniendo un impacto directo sobre el producto bruto interno (Instituto Peruano de Economía, 2017). 
+El Perú es el país con mayor atractivo para la inversión minera en la región. Debido a la concentración de inversiones en el sector minero y a los altos precios internacionales, los minerales metálicos han llegado a representar el 55% de las exportaciones totales del país al 2016, teniendo un impacto directo sobre el producto bruto interno (Instituto Peruano de Economía, 2017). 
 
 La relación bilateral entre varias variables hace más complejo el proceso de un modelo econométrico. Uno de los pasos principales para modelar una determinada relación entre variables es la especificación del modelo econométrico. La elección del método depende del propósito de la evaluación y la evaluación de la disponibilidad de datos. Modelos como VAR y VECM se usan con mayor frecuencia en el tratamiento de tales relaciones, que tienen más de una variable endógena.
 Un factor preocupante es el impacto ambiental de la minería, puesto que ya en los años 80 era señalada como la actividad económica más contaminante. Por ello, se han establecido programas de evaluación de pasivos ambientales y planes de adecuación ambiental para la gran minería. Se estima en alrededor de US\$ 977,1 millones la inversión necesaria para mitigar la contaminación ambiental producida por las unidades mineras operativas. En cuanto a la mediana y pequeña minería, se estima que existe un saldo de pasivos ambientales de aproximadamente US\$ 181,4 millones, principalmente por contaminación en cuencas petrolíferas y lavaderos de oro. No obstante, la indefinición de derechos de propiedad reduce los incentivos para que las normas ambientales sean aplicadas y dificulta la fiscalización.
 
 El presente trabajo tiene por objetivo principal: determinar cuál ha tenido mayor incidencia sobre el crecimiento económico en el Perú en el periodo 1994-2016. Los objetivos específicos son: 1) Determinar la existencia de una relación de equilibrio en el largo plazo entre las exportaciones mineras metálicas, la producción industrial y el crecimiento económico, para hallar una sincronización en el tiempo que refleje una relación confiable y determinante; 2) Determinar la direccionalidad de la relación causal entre las exportaciones mineras metálicas, la producción industrial y el crecimiento económico. 
 
-# Revisión de la literatura 
-sasdsdaadaddasdsaasd
+# Revisión empírica 
+
+En base a la investigación realizada por Auro Kumar, Dukhabandhu Sahoo y Naresh Chandra [@Sahoo2014] en la cual se investigaron la relación entre la exportación minera, la producción industrial y el crecimiento económico en la India utilizando datos de series temporales anuales de 1981 a 2010, en la cual se la realizo mediante la metodología de VECM  y los resultados de la cointegración multivariante sugieren que existe una relación de equilibrio a largo plazo entre la exportación minera, la producción industrial y el crecimiento económico.
+
+Boriss Siliverstovs y Dierk Herzer [@Siliverstovs2007] en su estudio de Exportaciones manufactureras, exportaciones mineras y crecimiento: análisis de cointegración y causalidad para Chile (1960–2001) utiliza la técnica de cointegración de Johansen para examinar los efectos de la productividad de las exportaciones de manufacturas y minería en el contexto de la hipótesis de crecimiento basada en la exportación utilizando los datos de series temporales para 1960–2001 mostraron que existe una relación a largo plazo entre el capital, el trabajo, las importaciones de bienes de capital, las exportaciones de manufacturas, las exportaciones mineras.
+
+Kegomoditswe Koitsiw y Tsuyoshi Adachi [@Koitsiwe2015] analizaron en su investigación la relación entre ingresos mineros, consumo del gobierno, tipo de cambio y crecimiento económico en Botswana con datos trimestrales de 1994 a 2012 mediante el uso de modelado autorregresivo (VAR) cuyos resultados indican que los ingresos mineros tienen un impacto significativo  en el crecimiento económico y el consumo del gobierno.
+
+David I. Stern [@Stern2018] mostros en su estudio sobre la contribución del sector minero a la sostenibilidad en los países en desarrollo utilizando  un modelo de autorregresión vectorial (VAR) para cada uno de los 19 países en desarrollo no pertenecientes a la OPEP con grandes sectores mineros, cuyos resultados fueron que  no es posible rechazar la hipótesis de que el sector minero resta valor a la sostenibilidad en los países en desarrollo.
+
+El resumen de las investigaciones realizadas se encuentra en el Cuadro \ref{tab:lit}.
+
 
 
 # Datos y Metodología
@@ -121,6 +134,7 @@ sasdsdaadaddasdsaasd
 ## Datos
 
 El crecimiento económico será representado mediante el producto bruto interno real *(PBI)*, dando la posibilidad de comparar la producción real en tiempos diferentes, siendo una buena medida para el crecimiento económico. El sector minero estará reflejado mediante los datos anuales de valores FOB de la exportación de minerales metálicos (cobre, zinc, oro, plata, estaño, hierro plomo y molibdeno), los cuales se tomaron como una sola variable *(XMIN)*, pues captura la actividad minera en crecimiento y el sector industrial mediante el Producto Bruto Interno Manufacturero *(PBIMAN)*:
+
 Los datos se obtuvieron de la base de datos del Banco Central de la Republica del Perú, del periodo de 1994-2016 expresados en precios del 2011, ya que en esa época el sector minero fue un soporte esencial en la económica peruana, pues fue un año de precios de los metales excepcionalmente altos. 
 
 ## Metodología
@@ -138,15 +152,15 @@ Donde:
 + ${XMIN}_t =$ 	Exportaciones Mineras Metálicas
 + $\varepsilon_t =$ Ruido Blanco 
 
-Donde
+Donde:
 
 + $t$: 	 es la variable de tendencia.
 
 Entonces, comenzamos el proceso de estimación a partir del modelo \ref{eq1}. El propósito de este trabajo es examinar la relación a largo plazo entre Exportaciones Mineras Metálicas, Producto Interno Bruto Manufacturero y el Producto Interno Bruto en Perú. El enfoque metodológico del estudio incluye los siguientes pasos:
 
-+ Comprobamos las propiedades de estacionariedad de la serie aplicando la prueba de Dickey-Fuller (ADF) aumentada [@Dickey1981] así como la prueba de Phillips-Perron (PP)[@Phillips1988].
-+ Si todas las variables están integradas de orden uno, entonces la prueba de cointegración de Johansen (1995) es la más apropiada para ser usada. 
-+ El tercer paso consiste en comprobar la relación causal entre las variables utilizando las pruebas apropiadas.
+1. Comprobamos las propiedades de estacionariedad de la serie aplicando la prueba de Dickey-Fuller (ADF) aumentada [@Dickey1981] así como la prueba de Phillips-Perron (PP)[@Phillips1988].
+2. Si todas las variables están integradas de orden uno, entonces la prueba de cointegración de Johansen (1995) es la más apropiada para ser usada. 
+3. El tercer paso consiste en comprobar la relación causal entre las variables utilizando las pruebas apropiadas.
 
 En la Figura \ref{fig:plot1} se presenta la evolución de las tres variables, Exportaciones Mineras Metálicas, Producto Interno Bruto Manufacturero y el Producto Interno Bruto de Perú durante los años 1994-2016. Las estadísticas descriptivas de las variables se muestran en la Cuadro \ref{tab:descript}.
 
@@ -336,7 +350,8 @@ Dado que el enfoque de Johansen (1988) es sensible a la longitud del retraso, an
 Todos los criterios indican que la longitud óptima del rezago es igual a 2. Por lo tanto, el orden del modelo VEC es igual a 2. 
 
 La clave de la prueba de cointegración reside en la selección de la forma adecuada de la prueba de cointegración y el orden de retraso. La relación de cointegración entre las variables del modelo VEC se prueba generalmente con el método de Johnsen (1988). Aquí las secuencias seleccionadas son términos de tendencia lineal, y luego la forma de prueba de la ecuación de cointegración es sólo de intercepción. El número máximo de vectores de cointegración es el número de variables menos uno (n-1=3-1=2).
-La prueba de cointegración de Johansen sobre las Exportaciones Mineras, PIB Manufacturero y el PIB, en el Cuadro \ref{tab:tb4} muestra que, en la prueba de trazas los resultados de la prueba deben aceptar la hipótesis nula, por debajo del nivel del 5%, y existen dos relaciones positivas. Esto significa que hay relaciones de equilibrio estables y a largo plazo entre las variables. Partiendo de la premisa de la existencia de relaciones de cointegración, la modelización del VEC puede realizarse más adelante.
+
+La prueba de cointegración de Johansen sobre las Exportaciones Mineras, PIB Manufacturero y el PIB, en el Cuadro \ref{tab:tb4} muestra que, en la prueba de trazas los resultados de la prueba deben aceptar la hipótesis nula, y existen dos relaciones positivas. Esto significa que hay relaciones de equilibrio estables y a largo plazo entre las variables. Partiendo de la premisa de la existencia de relaciones de cointegración, la modelización del VEC puede realizarse más adelante.
 
 
 ```{r displayvarsel, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
@@ -357,8 +372,8 @@ table3 = stargazer(tab.out4,
                    digits = 2,
                    font.size="small",
                    title="Criterios de selección del orden de rezagos del VEC (Max=2)",
-          notes = c("\\footnotesize{$^{*}$Indica el orden de retraso seleccionado por el }" ,
-                    "\\footnotesize{criterio}",
+          notes = c("\\footnotesize{$^{*}$Indica el orden de retraso seleccionado   }" ,
+                    "\\footnotesize{por el criterio}",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}")
                    )
 
@@ -434,7 +449,7 @@ table4 <- c(table4[a <- 1:12], r.coint.1, table4[-a])
 cat(table4, sep='\n')
 ```
 
-Los resultados del Cuadro \ref{tab:tb4} (estadísticas de pruebas de trazas) apoyan la presencia de un vector cointegrador con un nivel de significación del .01. Concluimos que hay una fuerte evidencia de cointegración a largo plazo entre las variables examinadas. Las ecuaciones de cointegración a largo plazo se muestran a continuación:
+Los resultados del Cuadro \ref{tab:tb4} (estadísticas de pruebas de trazas) apoyan la presencia de un vector cointegrador, concluimos que hay una fuerte evidencia de cointegración a largo plazo entre las variables examinadas. Las ecuaciones de cointegración a largo plazo se muestran a continuación:
  
 ```{r displayveccoint, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
 ################## CORREGIR NO DEPURA LA TABLA CON CAT 
@@ -493,7 +508,48 @@ Basándose en la ecuación \ref{eq2} de cointegración anterior, el estudio conc
 
 ## Estimación y análisis del VECM
 
-Los resultados del Cuadro \ref{tab:tb6} muestran que el grado de ajuste del modelo VEC R2 > 0,5, y los valores de los criterios AIC y SC son relativamente pequeños, lo que indica la razonabilidad de la estimación del modelo y la línea de promedio cero representa una relación de equilibrio estable y a largo plazo entre las variables. 
+Después de la relación a largo plazo, continuamos aplicando el VECM para determinar la dirección de causalidad entre las variables examinadas. Las ecuaciones que se utilizan para probar la causalidad de Granger son las siguientes:
+
+
+\begin{equation}
+\begin{bmatrix}
+\Delta PIB_{t}\\ 
+\Delta PIBMAN_{t}\\ 
+\Delta XMIN_{t}
+\end{bmatrix}=
+\begin{bmatrix}
+\alpha _{1}\\ 
+\alpha _{2}\\ 
+\alpha _{3}
+\end{bmatrix}+
+\sum_{i=1}^{p}
+\begin{bmatrix}
+\beta_{11}  & \beta_{21}  & \beta_{31}\\ 
+\beta_{21} &  \beta_{21}  & \beta_{31}\\ 
+\beta_{31} &  \beta_{21}  & \beta_{31}
+\end{bmatrix}
+\begin{bmatrix}
+\Delta PIB_{t-i}\\ 
+\Delta PIBMAN_{t-i}\\ 
+\Delta XMIN_{t-i}
+\end{bmatrix}+
+\begin{bmatrix}
+\lambda _{1}\\ 
+\lambda _{2}\\ 
+\lambda _{3}
+\end{bmatrix}EMC_{t-1}+
+\begin{bmatrix}
+\mu _{1}\\ 
+\mu _{2}\\ 
+\mu _{3}
+\end{bmatrix}
+\label{eq:eq4}
+\end{equation}
+
+
+donde i(i=1, … , p) es la longitud de retraso óptima determinada por los criterios anteriormente analizados; ${ECM}_{t-1}$ es el residuo rezagado obtenido de la relación a largo plazo presentada en la ecuación \ref{eq1}; $\lambda_1$,$\lambda_2$ y $\lambda_3$ son los coeficientes de ajuste; y $\mu_{1t}$, $\mu_{2t}$ y $\mu_{3t}$ son los términos de perturbación que se supone que no están correlacionados con cero, es decir, $N(0, \sigma)$.
+
+Los resultados del Cuadro \ref{tab:tb6} muestran que el grado de ajuste del modelo VEC $R^2$ > 0,5, y los valores de los criterios AIC y SC son relativamente pequeños, lo que indica la razonabilidad de la estimación del modelo y la línea de promedio cero representa una relación de equilibrio estable y a largo plazo entre las variables. 
 
 ```{r displayvec, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
 
@@ -525,7 +581,8 @@ table7 = stargazer(vec.summ.n,
                    digits = 2,
                    font.size="small",
                    title="Los resultados de la estimación del modelo VEC",
-          notes = c("\\footnotesize{\\textit{Nota:} $^{***}$, $^{**}$ y $^{*}$ indica el nivel significativo al .01, .05 y .1 respectivamente}",
+          notes = c("\\footnotesize{\\textit{Nota:} $^{***}$, $^{**}$ y $^{*}$ indica el nivel significativo al .01, .05 y .1}",
+                    "\\footnotesize{respectivamente}",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}"))
 
 
@@ -582,8 +639,10 @@ table7 <- c(table7[a <- 1:25], n.line, table7[-a])
 cat(table7, sep='\n')
 ```
 
-El Cuadro \ref{tab:tb7} proporciona los resultados estimados de la causalidad en el sentido de Granger del Vector Error Correction (VEC) que exhibe causalidad tanto a corto como a largo plazo.
-En el Cuadro \ref{tab:tb7} muestra el término de corrección de errores para la ecuación de cointegración con PIB, PIBMAN y XMIN como variables dependientes. En el Cuadro \ref{tab:tb7}, se destaca que existe una relación de causalidad en el sentido de Granger entre las Exportaciones Mineras Metálicas y el nivel de  producción interna bruta manufacturero en las dos direcciones, mientras que hay una relación de causalidad en una dirección de las Exportaciones Mineras Metálicas hacia el PIB, al igual que existe una relación de causalidad en el sentido de Granger unidireccional entre el nivel de  producción interna bruta manufacturero hacia el PIB , y por último, No existe una relación de causalidad del PIB hacia las otras dos variables analizadas. en ninguna dirección.
+Además, es útil investigar la presencia de una relación de causalidad de Granger a corto y largo plazo entre las tres variables. La presencia de cointegración nos permite utilizar la representación de corrección de errores para investigar la relación de causalidad entre las variables. El Cuadro \ref{tab:tb7} proporciona los resultados estimados de la causalidad de Granger a través del modelo VEC que exhibe causalidad tanto a corto como a largo plazo.
+
+El Cuadro \ref{tab:tb7} muestra el término de corrección de errores para la ecuación de cointegración con PIB, PIBMAN y XMIN como variables dependientes. En el Cuadro \ref{tab:tb7}, se destaca que existe una relación de causalidad en el sentido de Granger unidireccional entre las Exportaciones  Mineras Metálicas y el nivel de Producción Interna Bruta, también hay una relación de causalidad en el sentido de Granger unidireccional entre el PIB Manufacturero y el PIB, mientras que hay una relación de causalidad en el sentido de Granger en una dirección de las Exportaciones Mineras Metálicas hacia el PIB Manufacturero en las dos direcciones.
+
 Los recursos minerales son materias primas para el sector industrial de la economía. Como resultado, actúa como una inversión de inventario en el proceso de producción industrial. La expansión del crecimiento económico requiere un mayor stock de capital y que a su vez requieren una mayor tasa de inversión en inventario en el sector industrial de la economía.
 
 
@@ -638,7 +697,7 @@ cccgrg = "\\begin{tabular}{@{\\extracolsep{5pt}} lcccl} "
 table8 <- table8[c(-6)]
 table8 <- c(table8[a <- 1:5], cccgrg, table8[-a])
 
-l1.grg = "$\\Delta$PBI & - & 6.98945$^{**}$ & 13.51599$^{***}$ & $\\Delta$PBI $\\leftarrow$ $\\Delta$PBIMAN, $\\Delta$PBI $\\leftarrow$ DXMIN \\\\ "
+l1.grg = "$\\Delta$PBI & - & 6.98945$^{**}$ & 13.51599$^{***}$ & $\\Delta$PBI $\\leftarrow$ $\\Delta$PBIMAN, $\\Delta$PBI $\\leftarrow$XMIN \\\\ "
 table8 <- table8[c(-12)]
 table8 <- c(table8[a <- 1:11], l1.grg, table8[-a])
 
@@ -656,7 +715,7 @@ table8 <- c(table8[a <- 1:15], l3.grg, table8[-a])
 cat(table8, sep='\n')
 ```
 
-La eficiencia del modelo ha sido probada para el supuesto de normalidad, distribución heterosedastica y presencia de correlación serial. La distribución normal de los residuos se ha examinado en función del resultado del estadístico de Jarque-Bera
+En nuestro análisis, hemos estimado el modelo, pero es necesario realizar una verificación de robustez del modelo. La eficacia del modelo ha sido probada para el supuesto de normalidad, heterocedasticidad y presencia de correlación serial como se observa en el Cuadro \ref{tab:tb5}. La distribución normal de los residuos se ha examinado en función del resultado del estadístico de Jarque-Bera . El resultado del diagnóstico sostiene que los residuos se distribuyen normalmente. Por lo tanto, nos movemos para probar la presencia de heteroscedasticidad en nuestro modelo basado en la prueba de heteroscedasticidad condicional autorregresiva (ARCH). El resultado no revela ningún efecto ARCH presente en el modelo que fortalezca los resultados estimados. Además, la presencia de correlación en serie en el modelo se ha verificado a través de la prueba de correlación en serie de Breusch-Godfrey, conocida alternativamente como prueba de multiplicador de Lagrange (LM). Se ha encontrado que no hay evidencia de correlación serial en el modelo. La lectura de los resultados de las pruebas anteriores fortalece los modelos estimados. 
 
 ```{r displaydiag, eval=TRUE, echo=FALSE, tidy = TRUE, size="small", cache=TRUE, results="hide", message=F, warning=F}
 #https://cran.r-project.org/web/packages/MVN/vignettes/MVN.pdf
@@ -683,7 +742,7 @@ table5 = stargazer(tab.out6,
            title="Resultados de las pruebas de diagnóstico del VEC(2)",
           notes = c("\\footnotesize{\\textit{Nota:} La Ho nula de J-B es la normalidad residual, la Ho es no autocorrelación, }",
                     " \\footnotesize{ la Ho de la prueba ARCH es heterocedasticidad, la estabilidad VEC revela que}",
-                    " \\footnotesize{  4 raíces tienen un módulo menor que uno y se encuentran dentro del círculo de }",
+                    " \\footnotesize{  5 raíces tienen un módulo menor que uno y se encuentran dentro del círculo de }",
                     "\\footnotesize{la unidad. }",
                     "\\footnotesize{\\textit{Elaboración: Los autores}}"))
 
@@ -697,11 +756,21 @@ table5 <- c(table5[a <- 1:5], cccestab, table5[-a])
 cat(table5, sep='\n')
 ```
 
+El modelo posee  tres raíces fuera del circulo unitario, por consiguiente, el modelo no es estable, lo cual afectaría la confiabilidad de la capacidad  predictiva del mismo, procedemos a calcular dicha predicción (imagen de las predicicones citar), y existe una divergencia entre los resultados del modelo y la evidencia empírica, se destaca el hecho que según el modelo, las exportaciones de minerales metálicos disminuirán en los años posteriores a los analizados, cuando en la realidad,  tuvieron un aumento significativo, según el Ministerio de Energía y Minas del Perú  y en el año 2017 representaron el 60% de todas las exportaciones, que sobrepasa el 55% que tuvieron en el 2016 [@MINEM2018].
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth,height=\textheight]{C:/Users/crist/Documents/eco2/trabajo_eco2/doc/figs/pred.pdf}
+\caption{\label{fig:plot2} Previsión del modelo (En t+1)}
+\end{figure}
+
 # Conclusiones
 
-Los resultados sugieren que las exportaciones mineras metálicas han sido determinantes para el crecimiento económico del Perú en el periodo 1994-2016. A pesar que las divisas generadas por la exportación de minerales metálicos ayudan en gran medida lograr una mayor producción manufacturera, la orientación de inversiones hacia el sector minero pudieron haber ocasionado que el sector manufacturero no se expanda a un ritmo que le permita liderar el crecimiento económico
-Los resultados sugieren que existió una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú. Esto respalda el equilibrio a largo plazo entre la minería metálica y el crecimiento económico peruano (Ecuación \ref{eq2} y \ref{eq3}). Asimismo, se evidenció una causalidad de la producción industrial hacia el PIB Cuadro \ref{tab:tb7}.
+Los resultados sugieren que las exportaciones mineras metálicas han sido determinantes para el crecimiento económico del Perú en el periodo 1994-2016. A pesar de que las divisas generadas por la exportación de minerales metálicos ayudan en gran medida lograr una mayor producción manufacturera, la orientación de inversiones hacia el sector minero pudieron haber ocasionado que el sector manufacturero no se expanda a un ritmo que le permita liderar el crecimiento económico.
 
+Además, se concluyó que existió una relación de causalidad de las exportaciones mineras metálicas hacia el PBI, es decir, las exportaciones metálicas impulsaron el crecimiento económico del Perú. Esto respalda el equilibrio a largo plazo entre la minería metálica y el crecimiento económico peruano (Ecuación \ref{eq2} y \ref{eq3}). Asimismo, se evidenció una causalidad de la producción industrial hacia el PIB (Cuadro \ref{tab:tb7}).
+
+La estrategia actual con la exportación de minerales como medio de ingresos de divisas no es viable ni justificable con respecto a lograr un desarrollo sostenible para la republica peruana. Los recursos minerales son de naturaleza agotable que no podrían reponerse dentro de un horizonte temporal económicamente factible. Por lo tanto, la extracción de minerales requiere un proceso de planificación sostenible así que el Gobierno del Perú debería tomar las medidas necesarias para extraer los recursos minerales sin comprometer el objetivo a largo plazo de la sostenibilidad.
 
 \newpage
 
